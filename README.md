@@ -1,0 +1,1 @@
+# GPS Tracker - Debug Tool made in React and written with TypeScript.
