@@ -1,15 +1,15 @@
 import React, { FC, useState } from 'react'
-import fetchDeviceData from '../fetchers/DeviceDataFetcher'
 import styles from './SearchBar.module.scss'
+
+import { SearchBarProps } from '../../types'
 
 interface SearchBarProps {
     // Define any props here if needed
 }
 
-const SearchBar: FC<SearchBarProps> = () => {
+const SearchBar: FC<SearchBarProps> = ({ onSearch }) => {
     const [imei, setImei] = useState<string>('')
     const [errorMsg, setErrorMsg] = useState<string>('')
-    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -20,27 +20,15 @@ const SearchBar: FC<SearchBarProps> = () => {
         if (!imeiRegex.test(cleanedImei)) {
             setErrorMsg('Only numbers allowed for IMEI')
             return
-        }
-
-        if (!cleanedImei) {
+        } else if (!cleanedImei) {
             setErrorMsg('Enter a valid IMEI')
             return
-        }
-        setImei(cleanedImei)
-        setIsLoading(true)
-        setErrorMsg('')
-
-        fetchDeviceData(cleanedImei, handleFetchComplete) // Call the function directly
-    }
-
-    const handleFetchComplete = (data: any, error: string | null) => {
-        setIsLoading(false)
-        if (error) {
-            setErrorMsg(error)
         } else {
-            console.log(data) // Process your data here
+            setImei(cleanedImei)
             setErrorMsg('')
         }
+
+        onSearch(cleanedImei) // Call the function directly
     }
 
     return (
@@ -56,7 +44,6 @@ const SearchBar: FC<SearchBarProps> = () => {
                 <button type="submit" id="inputSubmit">Search</button>
             </form>
 
-            {isLoading && <div className={styles.loaderContainer}>Loading...</div>}
             {errorMsg && <div className={styles.errorMsg}>{errorMsg}</div>}
         </div>
     )

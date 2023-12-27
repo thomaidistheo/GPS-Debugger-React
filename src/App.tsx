@@ -1,11 +1,11 @@
 import './App.css'
-import SearchBar from './components/SearchBar/SearchBar'
+import Debugger from './pages/Debugger/Debugger'
 
 function App() {
 
   return (
     <>
-      <SearchBar />
+      <Debugger />
     </>
   )
 }
