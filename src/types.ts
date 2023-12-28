@@ -21,3 +21,7 @@ export interface GpsData {
 export interface DeviceDetailsProps {
     gpsData: GpsData | null;
 }
+
+export interface OpenStreetMapProps {
+    gpsData: GpsData;
+}

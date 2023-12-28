@@ -1,19 +1,14 @@
 import React from 'react';
 import styles from '../DeviceDetails/DeviceDetails.module.scss'
-import { GpsData } from '../../types.ts'
-import { gpsData } from '../../types.ts'
 
 const DeviceDetails: React.FC<DeviceDetailsProps> = ({ gpsData }) => {
 
     if (!gpsData) {
-        return null;
+        return null
     }
 
     return (
-        <div className={styles.deviceDetailsSection}>
-            <div className={styles.mapContainer}>
-                <div className={styles.map}>MAP</div>
-            </div>
+        <>
             <div className={styles.deviceDetailsContainer}>
                 <h3>Device Information</h3>
                 <ul>
@@ -84,8 +79,8 @@ const DeviceDetails: React.FC<DeviceDetailsProps> = ({ gpsData }) => {
                     </li>
                 </ul>
             </div>
-        </div>
-    );
-};
+        </>
+    )
+}
 
 export default DeviceDetails;

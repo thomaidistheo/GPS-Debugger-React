@@ -7,6 +7,7 @@ import SearchBar from "../../components/SearchBar/SearchBar"
 import fetchDeviceData from '../../components/fetchers/DeviceDataFetcher'
 import loadingGif from '../../assets/loading-ripple.gif'
 import { GpsData } from '../../types'
+import OpenStreetMap from '../../components/OpenStreetMap/OpenStreetMap'
 
 function Debugger() {
     const [gpsData, setGpsData] = useState<GpsData | null>(null)
@@ -34,12 +35,12 @@ function Debugger() {
                 : (
                     <>
                         <SearchBar onSearch={handleFetchData} />
-
                             {gpsData 
-                            ? <> 
+                            ? <div className={styles.deviceDetailsSection}> 
+                                <OpenStreetMap gpsData={gpsData} />
                                 <DeviceDetails gpsData={gpsData}/>{
                                 console.log(gpsData)} 
-                            </>
+                            </div>
                             : console.log('no device data yet')
                             } 
 
