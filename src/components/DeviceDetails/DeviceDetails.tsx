@@ -4,6 +4,7 @@ import { GpsData } from '../../types.ts'
 import { gpsData } from '../../types.ts'
 
 const DeviceDetails: React.FC<DeviceDetailsProps> = ({ gpsData }) => {
+
     if (!gpsData) {
         return null;
     }
@@ -45,7 +46,11 @@ const DeviceDetails: React.FC<DeviceDetailsProps> = ({ gpsData }) => {
                     <div className={styles.separator}></div>
                     <li>
                         <div className={styles.label}>Ignition</div>
-                        <div>{gpsData.IsIgnitionOn}</div>    
+                        <div>{gpsData.IsIgnitionOn 
+                            ? <span className={styles.success}> Yes </span> 
+                            : <span className={styles.error}> No </span> 
+                            }
+                        </div>    
                     </li>
                     <li>
                         <div className={styles.label}>Speed</div>

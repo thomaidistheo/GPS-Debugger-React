@@ -74,6 +74,14 @@
                     position: relative; 
                     font-size: 18px;
                 }
+
+                .success {
+                    color: $successClr;
+                }
+
+                .error {
+                    color: $errorClr;
+                }
             }
 
             .separator {

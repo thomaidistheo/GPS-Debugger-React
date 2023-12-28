@@ -8,7 +8,7 @@ export interface GpsData {
     Latitude: number;
     Longitude: number;
     RoadName: string;
-    IsIgnitionOn: string;
+    IsIgnitionOn: boolean;
     VehicleSpeed: number;
     Armed: boolean;
     Door: string;

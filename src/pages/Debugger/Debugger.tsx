@@ -20,7 +20,7 @@ function Debugger() {
                 setIsLoading(false)
                 error ? console.log(error) : setGpsData(data)
             })
-        }, 1500)
+        }, 500)
         
     }
     return (
