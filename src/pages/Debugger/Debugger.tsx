@@ -25,7 +25,6 @@ function Debugger() {
     }
     return (
         <>
-
             {isLoading
                 ? <div className={styles.loadingScreen}>
                     <div className={styles.imgCont}>
@@ -35,7 +34,15 @@ function Debugger() {
                 : (
                     <>
                         <SearchBar onSearch={handleFetchData} />
-                        <DeviceDetails gpsData={gpsData} />
+
+                            {gpsData 
+                            ? <> 
+                                <DeviceDetails gpsData={gpsData}/>{
+                                console.log(gpsData)} 
+                            </>
+                            : console.log('no device data yet')
+                            } 
+
                     </>
                 )
             }

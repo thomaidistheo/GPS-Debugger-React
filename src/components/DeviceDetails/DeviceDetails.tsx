@@ -17,66 +17,66 @@ const DeviceDetails: React.FC<DeviceDetailsProps> = ({ gpsData }) => {
                 <h3>Device Information</h3>
                 <ul>
                     <li>
-                        <span className={styles.label}>IMEI</span>
-                        <span>{gpsData.Imei}</span>
+                        <div className={styles.label}>IMEI</div>
+                        <div>{gpsData.Imei}</div>
                     </li>
                     <div className={styles.separator}></div>
                     <li>
-                        <span className={styles.label}>DATE</span>
-                        <span>{gpsData.GPSDate}</span>
+                        <div className={styles.label}>DATE</div>
+                        <div>{gpsData.GPSDate.split(' ').join(' - ')}</div>
                     </li>
                     <div className={styles.separator}></div>
                     <li>
-                        <span className={styles.label}>Latitude</span>
-                        <span>{gpsData.Latitude}</span>
+                        <div className={styles.label}>Latitude</div>
+                        <div>{gpsData.Latitude}</div>
                     </li>
                     <li>
-                        <span className={styles.label}>Longitude</span>
-                        <span>{gpsData.Longitude}</span>
+                        <div className={styles.label}>Longitude</div>
+                        <div>{gpsData.Longitude}</div>
                     </li>
                     <li>
-                        <span className={styles.label}>Coordinates</span>
-                        <span>{gpsData.Latitude}, {gpsData.Longitude}</span>
+                        <div className={styles.label}>Coordinates</div>
+                        <div>{gpsData.Latitude},{gpsData.Longitude}</div>
                     </li>
                     <li>
-                        <span className={styles.label}>Road Name</span>
-                        <span>{gpsData.RoadName}</span>
+                        <div className={styles.label}>Road Name</div>
+                        <div>{gpsData.RoadName}</div>
                     </li>
                     <div className={styles.separator}></div>
                     <li>
-                        <span className={styles.label}>Ignition</span>
-                        <span>{gpsData.IsIgnitionOn}</span>    
+                        <div className={styles.label}>Ignition</div>
+                        <div>{gpsData.IsIgnitionOn}</div>    
                     </li>
                     <li>
-                        <span className={styles.label}>Speed</span>
-                        <span>{gpsData.VehicleSpeed}</span>    
+                        <div className={styles.label}>Speed</div>
+                        <div>{gpsData.VehicleSpeed}</div>    
                     </li>
                     <li>
-                        <span className={styles.label}>Armed</span>
-                        <span>{gpsData.Armed}</span>    
+                        <div className={styles.label}>Armed</div>
+                        <div>{gpsData.Armed}</div>    
                     </li>
                     <li>
-                        <span className={styles.label}>Door</span>
-                        <span>{gpsData.Door}</span>    
+                        <div className={styles.label}>Door</div>
+                        <div>{gpsData.Door}</div>    
                     </li>
                     <div className={styles.separator}></div>
                     <li>
-                        <span className={styles.label}>Event ID</span>
-                        <span>{gpsData.EventID}</span>
+                        <div className={styles.label}>Event ID</div>
+                        <div>{gpsData.EventID}</div>
                     </li>
                     <li>
-                        <span className={styles.label}>Event Name</span>
-                        <span id="eventName">{gpsData.EventName}</span>
+                        <div className={styles.label}>Event Name</div>
+                        <div id="eventName">{gpsData.EventName}</div>
                     </li>
                     <li>
-                        <span className={styles.label}>Protocol</span>
-                        <span>{gpsData.Protocol}</span>
+                        <div className={styles.label}>Protocol</div>
+                        <div>{gpsData.Protocol}</div>
                     </li>
-                    {/* <div className={styles.separator}></div> */}
-                    {/* <li>
-                        <span className={styles.label}>Raw Data</span>
-                        <span>{gpsData.RawData}</span>
-                    </li> */}
+                    <div className={styles.separator}></div>
+                    <li>
+                        <div className={styles.label}>Raw Data</div>
+                        <div className={styles.brakeText}>{gpsData.RawData}</div>
+                    </li>
                 </ul>
             </div>
         </div>

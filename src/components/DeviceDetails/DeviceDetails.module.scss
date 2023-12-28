@@ -54,12 +54,25 @@
 
             li {
                 margin-bottom: 24px;
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                gap: 16px;
+                flex-wrap: wrap;
 
                 .label {
                     border: 1px solid $accentClr;
                     border-radius: 4px;
                     padding: 4px 8px;
                     box-shadow: 0 0 5px rgba(0,0,0,0.1);
+                }
+
+                .brakeText {
+                    max-width: 100%;
+                    overflow: scroll;
+                    height: 32px;
+                    position: relative; 
+                    font-size: 18px;
                 }
             }
 
