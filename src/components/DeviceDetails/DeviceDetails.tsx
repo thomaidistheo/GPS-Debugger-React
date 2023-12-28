@@ -2,6 +2,18 @@ import React from 'react';
 import styles from '../DeviceDetails/DeviceDetails.module.scss'
 
 const DeviceDetails: React.FC<DeviceDetailsProps> = ({ gpsData }) => {
+    const convertToTimeZone = (dateString) => {
+        const date = new Date(dateString);
+
+        const utcTime = date.getTime() + (date.getTimezoneOffset() * 60000);
+        const offsetTime = 2 * 60 * 60000; 
+        const newTime = new Date(utcTime + offsetTime);
+
+        return newTime.toLocaleString();
+    }
+    
+    const timeZoneAdjustedDate = convertToTimeZone(gpsData.GPSDate);
+    console.log('timeZoneAdjustedDate', timeZoneAdjustedDate)
 
     if (!gpsData) {
         return null
@@ -19,7 +31,7 @@ const DeviceDetails: React.FC<DeviceDetailsProps> = ({ gpsData }) => {
                     <div className={styles.separator}></div>
                     <li>
                         <div className={styles.label}>DATE</div>
-                        <div>{gpsData.GPSDate.split(' ').join(' - ')}</div>
+                        <div>{convertToTimeZone(gpsData.Date)}</div>
                     </li>
                     <div className={styles.separator}></div>
                     <li>
@@ -42,8 +54,8 @@ const DeviceDetails: React.FC<DeviceDetailsProps> = ({ gpsData }) => {
                     <li>
                         <div className={styles.label}>Ignition</div>
                         <div>{gpsData.IsIgnitionOn 
-                            ? <span className={styles.success}> Yes </span> 
-                            : <span className={styles.error}> No </span> 
+                            ? <span className={styles.success}> ON </span> 
+                            : <span className={styles.error}> OFF </span> 
                             }
                         </div>    
                     </li>
