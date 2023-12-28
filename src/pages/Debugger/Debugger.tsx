@@ -20,21 +20,24 @@ function Debugger() {
                 setIsLoading(false)
                 error ? console.log(error) : setGpsData(data)
             })
-        }, 2000)
+        }, 1500)
         
     }
     return (
         <>
 
-            <SearchBar onSearch={handleFetchData} />
             {isLoading
                 ? <div className={styles.loadingScreen}>
                     <div className={styles.imgCont}>
                         <img src={loadingGif} alt="Loading..." />
                     </div>
                 </div>
-                :
-                <DeviceDetails gpsData={gpsData} />
+                : (
+                    <>
+                        <SearchBar onSearch={handleFetchData} />
+                        <DeviceDetails gpsData={gpsData} />
+                    </>
+                )
             }
         </>
     )
