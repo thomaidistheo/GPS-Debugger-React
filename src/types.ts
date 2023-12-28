@@ -1,10 +1,14 @@
+export interface DebuggerProps {
+    
+}
+
 export interface SearchBarProps {
     onSearch: (imei: string) => void;
 }
 
 export interface GpsData {
     Imei: string;
-    Date: string;
+    GPSDate: string;
     Latitude: number;
     Longitude: number;
     RoadName: string;
@@ -15,6 +19,7 @@ export interface GpsData {
     EventID: string;
     EventName: string;
     Protocol: string;
+    RawData: string;
     // other fields as needed...
 }
 

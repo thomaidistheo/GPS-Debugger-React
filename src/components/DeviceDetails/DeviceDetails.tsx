@@ -1,20 +1,8 @@
 import React from 'react';
 import styles from '../DeviceDetails/DeviceDetails.module.scss'
+import { DeviceDetailsProps } from '../../types';
 
 const DeviceDetails: React.FC<DeviceDetailsProps> = ({ gpsData }) => {
-    const convertToTimeZone = (dateString) => {
-        const date = new Date(dateString);
-
-        const utcTime = date.getTime() + (date.getTimezoneOffset() * 60000);
-        const offsetTime = 2 * 60 * 60000; 
-        const newTime = new Date(utcTime + offsetTime);
-
-        return newTime.toLocaleString();
-    }
-    
-    const timeZoneAdjustedDate = convertToTimeZone(gpsData.GPSDate);
-    console.log('timeZoneAdjustedDate', timeZoneAdjustedDate)
-
     if (!gpsData) {
         return null
     }
@@ -31,7 +19,7 @@ const DeviceDetails: React.FC<DeviceDetailsProps> = ({ gpsData }) => {
                     <div className={styles.separator}></div>
                     <li>
                         <div className={styles.label}>DATE</div>
-                        <div>{convertToTimeZone(gpsData.Date)}</div>
+                        <div>{gpsData.GPSDate}</div>
                     </li>
                     <div className={styles.separator}></div>
                     <li>

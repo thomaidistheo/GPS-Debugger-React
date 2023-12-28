@@ -1,13 +1,9 @@
-import React, { FC, useState } from 'react'
+import React, { useState } from 'react'
 import styles from './SearchBar.module.scss'
 
 import { SearchBarProps } from '../../types'
 
-interface SearchBarProps {
-    // Define any props here if needed
-}
-
-const SearchBar: FC<SearchBarProps> = ({ onSearch }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
     const [imei, setImei] = useState<string>('')
     const [errorMsg, setErrorMsg] = useState<string>('')
 

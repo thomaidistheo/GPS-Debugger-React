@@ -1,56 +1,53 @@
-import React, { useState, useEffect } from 'react'
-import styles from './Debugger.module.scss'
+import { useState, useEffect } from 'react';
+import styles from './Debugger.module.scss';
+import { DebuggerProps } from '../../types';
 
-import DeviceDetails from "../../components/DeviceDetails/DeviceDetails"
-import SearchBar from "../../components/SearchBar/SearchBar"
+import DeviceDetails from "../../components/DeviceDetails/DeviceDetails";
+import SearchBar from "../../components/SearchBar/SearchBar";
 
-import fetchDeviceData from '../../components/fetchers/DeviceDataFetcher'
-import loadingGif from '../../assets/loading-ripple.gif'
-import { GpsData } from '../../types'
-import OpenStreetMap from '../../components/OpenStreetMap/OpenStreetMap'
+import fetchDeviceData from '../../components/fetchers/DeviceDataFetcher';
+import loadingGif from '../../assets/loading-ripple.gif';
+import { GpsData } from '../../types';
+import OpenStreetMap from '../../components/OpenStreetMap/OpenStreetMap';
 
-function Debugger() {
-    const [gpsData, setGpsData] = useState<GpsData | null>(null)
-    const [isLoading, setIsLoading] = useState<boolean>(false)
-    const [imei, setImei] = useState<string>('') // To store the current IMEI
+const Debugger: React.FC<DebuggerProps> = () => {
+    const [gpsData, setGpsData] = useState<GpsData | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [imei, setImei] = useState<string>('');
 
-    const updateInterval = 5000 // 30 seconds
+    const updateInterval = 5000;
 
-    const fetchDeviceDataWithInterval = () => {
-        // setIsLoading(true)
+    const fetchDeviceDataWithInterval = (imei:string) => {
 
-        fetchDeviceData(imei, (data, error) => {
-            setIsLoading(false)
-            error ? console.log(error) : setGpsData(data)
-            console.log('Data fetched')
-        })
-    }
+        fetchDeviceData(imei, (data: GpsData | null, error: string | null) => {
+            setIsLoading(false);
+            if (error) {
+                console.log(error);
+            } else {
+                setGpsData(data);
+                console.log('Data fetched');
+            }
+        });
+    };
 
     useEffect(() => {
         if (imei) {
-            // Fetch immediately for the first time
-            fetchDeviceDataWithInterval()
-            setIsLoading(true)
-
-            // Set up the interval for subsequent fetches
-            const intervalId = setInterval(fetchDeviceDataWithInterval, updateInterval)
-
-            // Clear the interval when the component unmounts
-            return () => clearInterval(intervalId)
+            setIsLoading(true);
+            fetchDeviceDataWithInterval(imei);
+            const intervalId = setInterval(fetchDeviceDataWithInterval, updateInterval);
+            return () => clearInterval(intervalId);
         }
-    }, [imei])
+    }, [imei]);
 
     const handleFetchData = (newImei: string) => {
-        setImei(newImei)
-    }
+        setImei(newImei);
+    };
 
     return (
         <>
             {isLoading ? (
                 <div className={styles.loadingScreen}>
-                    <div className={styles.imgCont}>
-                        <img src={loadingGif} alt="Loading..." />
-                    </div>
+                    <img src={loadingGif} alt="Loading..." />
                 </div>
             ) : (
                 <>
@@ -61,12 +58,12 @@ function Debugger() {
                             <DeviceDetails gpsData={gpsData} />
                         </div>
                     ) : (
-                        console.log('No device data yet')
+                        <div className={styles.resultPlaceholder}>Device details will be shown here.</div>
                     )}
                 </>
             )}
         </>
-    )
+    );
 }
 
-export default Debugger
+export default Debugger;
