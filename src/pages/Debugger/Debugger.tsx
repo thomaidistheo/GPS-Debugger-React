@@ -18,7 +18,6 @@ const Debugger: React.FC<DebuggerProps> = () => {
     const updateInterval = 5000;
 
     const fetchDeviceDataWithInterval = (imei:string) => {
-
         fetchDeviceData(imei, (data: GpsData | null, error: string | null) => {
             setIsLoading(false);
             if (error) {
@@ -31,16 +30,20 @@ const Debugger: React.FC<DebuggerProps> = () => {
     };
 
     useEffect(() => {
+        console.log(imei)
         if (imei) {
-            setIsLoading(true);
+            setIsLoading(true)
+            setInterval(() => {
+                fetchDeviceDataWithInterval(imei)
+            }, updateInterval)
             fetchDeviceDataWithInterval(imei);
-            const intervalId = setInterval(fetchDeviceDataWithInterval, updateInterval);
-            return () => clearInterval(intervalId);
         }
     }, [imei]);
 
     const handleFetchData = (newImei: string) => {
+        console.log(newImei)
         setImei(newImei);
+        console.log(imei)
     };
 
     return (
