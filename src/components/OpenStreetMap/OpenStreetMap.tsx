@@ -11,7 +11,6 @@ import shadowUrl from 'leaflet/dist/images/marker-shadow.png';
 import styles from './OpenStreetMap.module.scss'
 
 // Fix for default marker icon issue with Webpack
-delete L.Icon.Default.prototype._getIconUrl; //! FIX FOR TS
 L.Icon.Default.mergeOptions({
     iconRetinaUrl,
     iconUrl,
