@@ -10,6 +10,7 @@ const Login: React.FC = () => {
         signInWithEmailAndPassword(auth, email, password)
             .then((_userCredential) => {
                 console.log('login success');
+                console.log('userCredential: ', _userCredential)
             })
             .catch((error) => {
                 console.log('login error: ', error);
@@ -20,10 +21,10 @@ const Login: React.FC = () => {
         const provider = new GoogleAuthProvider();
         signInWithPopup(auth, provider)
             .then((_result) => {
-                // Handle successful login
+                console.log('result: ', _result)
             })
             .catch((error) => {
-                // Handle errors
+                console.log('error: ', error)
             });
     };
 
