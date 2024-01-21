@@ -30,8 +30,8 @@ const Debugger: React.FC<DebuggerProps> = () => {
     };
 
     useEffect(() => {
-        console.log(imei)
         if (imei) {
+            console.log(imei)
             setIsLoading(true)
             setInterval(() => {
                 fetchDeviceDataWithInterval(imei)
@@ -55,6 +55,7 @@ const Debugger: React.FC<DebuggerProps> = () => {
             ) : (
                 <>
                     <SearchBar onSearch={handleFetchData} />
+                    
                     {gpsData ? (
                         <div className={styles.deviceDetailsSection}>
                             <OpenStreetMap gpsData={gpsData} />
