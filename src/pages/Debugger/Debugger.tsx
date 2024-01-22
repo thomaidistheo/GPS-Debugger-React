@@ -4,16 +4,20 @@ import { DebuggerProps } from '../../types';
 
 import DeviceDetails from "../../components/DeviceDetails/DeviceDetails";
 import SearchBar from "../../components/SearchBar/SearchBar";
+import AssetList from "../../components/AssetList/AssetList"
 
 import fetchDeviceData from '../../components/fetchers/DeviceDataFetcher';
 import loadingGif from '../../assets/loading-ripple.gif';
 import { GpsData } from '../../types';
 import OpenStreetMap from '../../components/OpenStreetMap/OpenStreetMap';
+import NewAssetPopup from '../../components/NewAssetPopup/NewAssetPopup';
+import { doc, getDoc, setDoc, collection, query, where, getDocs } from 'firebase/firestore';
 
 const Debugger: React.FC<DebuggerProps> = () => {
     const [gpsData, setGpsData] = useState<GpsData | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [imei, setImei] = useState<string>('');
+    const [showPopup, setShowPopup] = useState<boolean>(false);
 
     const updateInterval = 5000;
 
@@ -46,6 +50,11 @@ const Debugger: React.FC<DebuggerProps> = () => {
         console.log(imei)
     };
 
+    const handleNewAsset = (assetData: object) => {
+        console.log(assetData)
+        setShowPopup(false)
+    }
+
     return (
         <>
             {isLoading ? (
@@ -55,7 +64,10 @@ const Debugger: React.FC<DebuggerProps> = () => {
             ) : (
                 <>
                     <SearchBar onSearch={handleFetchData} />
-                    
+                    <AssetList setShowPopup={setShowPopup} />
+                    {showPopup && (
+                        <NewAssetPopup onAdd={handleNewAsset} />
+                    )}
                     {gpsData ? (
                         <div className={styles.deviceDetailsSection}>
                             <OpenStreetMap gpsData={gpsData} />

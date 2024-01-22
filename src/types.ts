@@ -1,5 +1,9 @@
 export interface DebuggerProps {
-    
+
+}
+
+export interface NewAssetPopupProps {
+    onAdd: (assetData: object) => void;
 }
 
 export interface SearchBarProps {

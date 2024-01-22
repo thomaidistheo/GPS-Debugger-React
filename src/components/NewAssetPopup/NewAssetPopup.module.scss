@@ -1,0 +1,107 @@
+@import '../../styles/variables';
+
+.popUpContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0,0.4);
+    padding: 0 16px;
+
+    .popUpForm {
+        width: 75vw;
+        max-width: 400px;
+        background-color: $accentClr;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 8px;
+        gap: 16px;
+        padding: 32px;
+
+        @media (max-width: 768px) {
+            width: 100%;
+            margin: 0 16px;
+            padding: 16px;
+        }
+
+        .popupTitle {
+            color: $txtPrimary;
+            font-size: 24px;
+        }
+
+        .inputsContainer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            width: 100%;
+
+            .inputGroup {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: center;
+                gap: 8px;
+                
+                .label {
+                    color: $txtSecondary;
+                }
+
+                .input {
+                    width: 100%;
+                    height: 52px;
+                    background: transparent;
+                    box-shadow: 0 0 10px rgba(0,0,0,0.15);
+                    border: 1px solid $accentClr;
+                    border-radius: 8px;
+                    padding: 0 16px;
+
+                    &.inputError {
+                        border: 1px solid $errorClr;
+                    }
+                }
+            }
+        }
+
+        .inputBtn {
+            width: 100%;
+            height: 52px;
+            background: transparent;
+            box-shadow: 0 0 10px rgba(0,0,0,0.15);
+            border: 1px solid $accentClr;
+            color: $txtPrimary;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+
+            &:active {
+                transform: scale(0.98);
+                box-shadow: 0 0 4px rgba(0,0,0,0.14);
+            }
+        }
+    }
+
+    .errorMsg {
+        background-color: $errorClr;
+        color: white;
+        padding: 16px 8px;
+        margin-top: 16px;
+        border-radius: $borderRadius;
+        box-shadow: 0 0 10px $errorClr;
+        width: 75vw;
+        max-width: 400px;
+
+        @media (max-width: 768px) {
+            margin: 16px;
+        }
+    }
+}

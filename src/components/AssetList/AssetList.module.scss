@@ -1,0 +1,66 @@
+@import '../../styles/variables';
+
+.assetListContainer {
+    width: 100%;
+    padding: 0 64px 16px 64px;
+    max-width: 800px;
+    margin: 0 auto;
+    margin-bottom: 32px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 16px;
+    color: $txtPrimary;
+
+    @media (max-width: 768px) {
+        max-width: unset;
+        margin-top: 0;
+        padding: 0;
+        margin-bottom: 16px;
+    }
+
+
+    ul {
+        width: 100%;
+        list-style-type: none;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 16px;
+        overflow: auto;
+        padding: 8px;
+
+        @media (max-width: 768px) {
+
+        }
+
+        li {
+            background: transparent;
+            padding: 16px;
+            border: 1px solid $accentClr;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+            cursor: pointer;
+            max-height: 52px;
+            display: grid;
+            place-content: center;
+            white-space: nowrap;
+            -webkit-user-select: none; /* Safari */
+            -ms-user-select: none; /* IE 10 and IE 11 */
+            user-select: none; /* Standard syntax */
+
+            &:active {
+                transform: scale(0.98);
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            }
+
+            .addBtn {
+                background: none;
+                border: none;
+                filter: contrast(.3);
+                cursor: pointer;
+            }
+        }
+    }
+}

@@ -51,7 +51,7 @@
         border-radius: $borderRadius;
 
         @media (max-width: 768px) {
-            margin: 8px 16px;
+            margin: 0px;
         }
             
         input {
@@ -67,6 +67,7 @@
                 line-height: 18px;
                 padding: 12px 16px;
                 border-radius: 0;
+                height: 64px;
             }
         }
 
