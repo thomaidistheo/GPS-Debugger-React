@@ -1,7 +1,3 @@
-import React, { useState } from 'react';
-import { collection, addDoc } from 'firebase/firestore';
-import { auth, db } from '../../firebase';
-
 import styles from './AssetList.module.scss';
 import CircleAdd from '../../assets/circle-add.svg';
 
@@ -24,3 +20,4 @@ function AssetList({ setShowPopup }) {
 }
 
 export default AssetList
+

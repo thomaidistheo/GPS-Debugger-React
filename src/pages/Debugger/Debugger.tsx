@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import styles from './Debugger.module.scss';
-import { DebuggerProps } from '../../types';
 
 import DeviceDetails from "../../components/DeviceDetails/DeviceDetails";
 import SearchBar from "../../components/SearchBar/SearchBar";
@@ -11,9 +10,11 @@ import loadingGif from '../../assets/loading-ripple.gif';
 import { GpsData } from '../../types';
 import OpenStreetMap from '../../components/OpenStreetMap/OpenStreetMap';
 import NewAssetPopup from '../../components/NewAssetPopup/NewAssetPopup';
-import { doc, getDoc, setDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import { doc, setDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import { db, auth } from '../../firebase';
+import { signOut } from 'firebase/auth';
 
-const Debugger: React.FC<DebuggerProps> = () => {
+const Debugger = () => {
     const [gpsData, setGpsData] = useState<GpsData | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [imei, setImei] = useState<string>('');
@@ -21,7 +22,7 @@ const Debugger: React.FC<DebuggerProps> = () => {
 
     const updateInterval = 5000;
 
-    const fetchDeviceDataWithInterval = (imei:string) => {
+    const fetchDeviceDataWithInterval = (imei: string) => {
         fetchDeviceData(imei, (data: GpsData | null, error: string | null) => {
             setIsLoading(false);
             if (error) {
@@ -50,36 +51,70 @@ const Debugger: React.FC<DebuggerProps> = () => {
         console.log(imei)
     };
 
-    const handleNewAsset = (assetData: object) => {
-        console.log(assetData)
+    const handleNewAsset = async (assetData: object) => {
         setShowPopup(false)
+        const { imei, name } = assetData
+
+        const user = auth.currentUser;
+
+        if (user) {
+            // Reference to the user's assets collection
+            const assetsRef = collection(db, 'users', user.uid, 'assets');
+            // Query for an asset with the provided IMEI
+            const q = query(assetsRef, where('imei', '==', imei));
+
+            try {
+                const querySnapshot = await getDocs(q);
+                if (querySnapshot.empty) {
+                    // No asset with the same IMEI exists, create a new one
+                    const newAssetRef = doc(assetsRef); // Let Firestore generate a new ID
+                    await setDoc(newAssetRef, { imei, name });
+                    console.log('New asset added:', newAssetRef.id);
+                } else {
+                    // An asset with this IMEI already exists
+                    console.log('An asset with this IMEI already exists');
+                }
+            } catch (error) {
+                console.error('Error accessing Firestore:', error);
+            }
+        }
     }
 
-    return (
-        <>
-            {isLoading ? (
-                <div className={styles.loadingScreen}>
-                    <img src={loadingGif} alt="Loading..." />
-                </div>
-            ) : (
-                <>
-                    <SearchBar onSearch={handleFetchData} />
-                    <AssetList setShowPopup={setShowPopup} />
-                    {showPopup && (
-                        <NewAssetPopup onAdd={handleNewAsset} />
-                    )}
-                    {gpsData ? (
-                        <div className={styles.deviceDetailsSection}>
-                            <OpenStreetMap gpsData={gpsData} />
-                            <DeviceDetails gpsData={gpsData} />
-                        </div>
-                    ) : (
-                        <div className={styles.resultPlaceholder}>Device details will be shown here.</div>
-                    )}
-                </>
-            )}
-        </>
-    );
-}
+    const handleSignOut = async () => {
+        try {
+            await signOut(auth);
+            console.log('User signed out successfully');
+            // Additional logic after successful sign out (e.g., redirecting the user)
+        } catch (error: unknown) {
+            console.error('Error signing out:', error.message);
+        }
+    }
 
-export default Debugger;
+        return (
+            <>
+                {isLoading ? (
+                    <div className={styles.loadingScreen}>
+                        <img src={loadingGif} alt="Loading..." />
+                    </div>
+                ) : (
+                    <>
+                        <SearchBar onSearch={handleFetchData} />
+                        <AssetList setShowPopup={setShowPopup} />
+                        <button onClick={handleSignOut}>Sign Out</button>
+                        {showPopup && (
+                            <NewAssetPopup onAdd={handleNewAsset} />
+                        )}
+                        {gpsData ? (
+                            <div className={styles.deviceDetailsSection}>
+                                <OpenStreetMap gpsData={gpsData} />
+                                <DeviceDetails gpsData={gpsData} />
+                            </div>
+                        ) : (
+                            <div className={styles.resultPlaceholder}>Device details will be shown here.</div>
+                        )}
+                    </>
+                )}
+            </>
+        );
+    }
+    export default Debugger;

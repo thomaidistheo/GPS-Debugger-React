@@ -12,20 +12,24 @@ const NewAssetPopup: React.FC<NewAssetPopupProps> = ({ onAdd }) => {
         e.preventDefault()
 
         const imeiRegex = /^\d+$/
-        const cleanedImei = imei.replace(/\s+/g, '')
-        
-        if (!imeiRegex.test(cleanedImei)) {
-            setErrorMsg('Only numbers allowed for IMEI')
-            return
-        } else if (!cleanedImei) {
-            setErrorMsg('Enter a valid IMEI')
-            return
-        } else {
-            setImei(cleanedImei)
-            onAdd({ imei, name })
-            setErrorMsg('')
-        }
 
+        if (!imei) {
+            setErrorMsg('Enter a valid IMEI')
+        } else {
+            const cleanedImei = imei.replace(/\s+/g, '')
+
+            if (!imeiRegex.test(cleanedImei)) {
+                setErrorMsg('Only numbers allowed for IMEI')
+                return
+            } else if (!cleanedImei) {
+                setErrorMsg('Enter a valid IMEI')
+                return
+            } else {
+                setImei(cleanedImei)
+                onAdd({ imei, name })
+                setErrorMsg('')
+            }
+        }
     }
 
     return (
