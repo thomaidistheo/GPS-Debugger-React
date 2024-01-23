@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
 import styles from './NewAssetPopup.module.scss'
 
-import { NewAssetPopupProps } from '../../types';
+import { assetDataProps } from '../../types'
+
+type NewAssetPopupProps = {
+    onAdd: (assetData: assetDataProps) => Promise<void>;
+}
 
 const NewAssetPopup: React.FC<NewAssetPopupProps> = ({ onAdd }) => {
     const [imei, setImei] = useState<string>('')

@@ -1,7 +1,52 @@
+import React, { useEffect, useState } from 'react'
 import styles from './AssetList.module.scss';
 import CircleAdd from '../../assets/circle-add.svg';
+import { auth, db } from '../../firebase'
+import { collection, getDocs } from 'firebase/firestore'
+import { FirebaseError } from 'firebase/app';
 
-function AssetList({ setShowPopup }) {
+type Asset = {
+    id: string;
+    imei: string;
+    name: string;
+}
+
+type AssetListProps = {
+        setShowPopup: React.Dispatch<React.SetStateAction<boolean>>;
+    };
+
+const AssetList: React.FC<AssetListProps> = ({ setShowPopup }) => {
+    const [assets, setAssets] = useState<Asset[]>([])
+    const [loading, setLoading] = useState<boolean>(false)
+
+    useEffect(() => {
+        const fetchAssets = async () => {
+            setLoading(true)
+            const user = auth.currentUser
+            
+            if (user) {
+                const assetsRef = collection(db, 'users', user.uid, 'assets')
+
+                try {
+                    const querySnapshot = await getDocs(assetsRef)
+                    const assetsList: Asset[] = querySnapshot.docs.map((doc) => ({
+                        id: doc.id,
+                        imei: doc.data().imei,
+                        name: doc.data().name,
+                    }))
+                    
+                    setAssets(assetsList)
+                } catch (error: unknown) {
+                    if (error instanceof FirebaseError) {
+                        console.log('error fetching assets list', error)
+                    }
+                }
+            }
+            setLoading(false);
+        }
+        fetchAssets()
+
+    }, [])
     
     return (
         <div className={styles.assetListContainer}>
@@ -11,9 +56,13 @@ function AssetList({ setShowPopup }) {
                         <img src={CircleAdd} alt="Add" />
                     </button>
                 </li>
-                <li className="asset">Asset 1</li>
-                <li className="asset">Asset 1</li>
-                <li className="asset">Asset 1</li>
+                {loading 
+                    ? <p> Loading assets... </p>
+                    : assets.map((asset) => (
+                        <li key={asset.id} data-imei={asset.imei}>
+                            {asset.name}
+                        </li>
+                ))}
             </ul>
         </div>
     )

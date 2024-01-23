@@ -2,10 +2,10 @@ export interface DebuggerProps {
 
 }
 
-export interface NewAssetPopupProps {
-    onAdd: (assetData: object) => void;
+export interface assetDataProps {
+    imei: string;
+    name: string;
 }
-
 export interface SearchBarProps {
     onSearch: (imei: string) => void;
 }

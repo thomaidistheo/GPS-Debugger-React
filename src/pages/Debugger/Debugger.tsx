@@ -13,6 +13,13 @@ import NewAssetPopup from '../../components/NewAssetPopup/NewAssetPopup';
 import { doc, setDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { db, auth } from '../../firebase';
 import { signOut } from 'firebase/auth';
+// import { StorageError } from 'firebase/storage';
+import { FirebaseError } from 'firebase/app';
+
+type assetDataProps = {
+    imei: string;
+    name: string;
+}
 
 const Debugger = () => {
     const [gpsData, setGpsData] = useState<GpsData | null>(null);
@@ -51,7 +58,7 @@ const Debugger = () => {
         console.log(imei)
     };
 
-    const handleNewAsset = async (assetData: object) => {
+    const handleNewAsset = async (assetData: assetDataProps) => {
         setShowPopup(false)
         const { imei, name } = assetData
 
@@ -86,7 +93,9 @@ const Debugger = () => {
             console.log('User signed out successfully');
             // Additional logic after successful sign out (e.g., redirecting the user)
         } catch (error: unknown) {
-            console.error('Error signing out:', error.message);
+            if (error instanceof FirebaseError ) {
+                console.error('Error signing out:', error.message);
+            }
         }
     }
 
