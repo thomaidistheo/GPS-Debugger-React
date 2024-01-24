@@ -64,6 +64,11 @@
                     border: 1px solid $accentClr;
                     border-radius: 8px;
                     padding: 0 16px;
+                    font-size: 16px;
+
+                    &::placeholder {
+                        font-size: 16px;
+                    }
 
                     &.inputError {
                         border: 1px solid $errorClr;
