@@ -6,7 +6,6 @@ import SearchBar from "../../components/SearchBar/SearchBar";
 import AssetList from "../../components/AssetList/AssetList"
 
 import fetchDeviceData from '../../components/fetchers/DeviceDataFetcher';
-import loadingGif from '../../assets/loading-ripple.gif';
 import { GpsData } from '../../types';
 import OpenStreetMap from '../../components/OpenStreetMap/OpenStreetMap';
 import NewAssetPopup from '../../components/NewAssetPopup/NewAssetPopup';

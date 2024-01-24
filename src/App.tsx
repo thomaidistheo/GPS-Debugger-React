@@ -5,8 +5,6 @@ import Login from './pages/Login/Login'
 import React, { useState } from 'react'
 import { auth } from './firebase'
 import { User } from 'firebase/auth'
-import styles from './pages/Debugger/Debugger.module.scss';
-import loadingGif from './assets/loading-ripple.gif';
 import LoadingScreen from './components/Loading/LoadingScreen'
 
 

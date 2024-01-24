@@ -1,5 +1,3 @@
-import React from 'react'
-
 import loadingGif from '../../assets/loading-ripple.gif';
 import styles from './LoadingScreen.module.scss'
 
