@@ -1,6 +1,6 @@
 const fetchDeviceData = async (imei: string, onFetchComplete: (data: any, error: string | null) => void) => {
     const serverIP = import.meta.env.VITE_SERVER_IP;
-    console.log('Server IP:', import.meta.env.VITE_SERVER_IP);
+    // console.log('Server IP:', import.meta.env.VITE_SERVER_IP);
 
     try {
         const response = await fetch(`${serverIP}/${imei}`, {

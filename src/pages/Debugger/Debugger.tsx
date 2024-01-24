@@ -25,6 +25,7 @@ const Debugger = () => {
     const [gpsData, setGpsData] = useState<GpsData | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [imei, setImei] = useState<string>('');
+    const [name, setName] = useState<string>('');
     const [showPopup, setShowPopup] = useState<boolean>(false);
 
     const updateInterval = 5000;
@@ -34,9 +35,10 @@ const Debugger = () => {
             setIsLoading(false);
             if (error) {
                 console.log(error);
+                setGpsData(null)
             } else {
                 setGpsData(data);
-                console.log('Data fetched');
+                console.log('data fetched:', imei);
             }
         });
     };
@@ -45,18 +47,26 @@ const Debugger = () => {
         if (imei) {
             console.log(imei)
             setIsLoading(true)
-            setInterval(() => {
+            const intervalId = setInterval(() => {
                 fetchDeviceDataWithInterval(imei)
             }, updateInterval)
             fetchDeviceDataWithInterval(imei);
+
+            return () => clearInterval(intervalId)
         }
     }, [imei]);
 
     const handleFetchData = (newImei: string) => {
         console.log(newImei)
         setImei(newImei);
-        console.log(imei)
     };
+
+    const handleSavedAssetData = (imei: string, name: string) => {
+        setImei(imei);
+        setName(name)
+        console.log(imei)
+        console.log(name)
+    }
 
     const handleNewAsset = async (assetData: assetDataProps) => {
         setShowPopup(false)
@@ -106,14 +116,18 @@ const Debugger = () => {
                 : (
                     <>
                         <SearchBar onSearch={handleFetchData} />
-                        <AssetList setShowPopup={setShowPopup} />
+                        <AssetList setShowPopup={setShowPopup} onAssetSelect={handleSavedAssetData}/>
                         <button onClick={handleSignOut}>Sign Out</button>
                         {showPopup && (
-                            <NewAssetPopup onAdd={handleNewAsset} />
+                            <NewAssetPopup 
+                                onAdd={handleNewAsset} 
+                                setShowPopup={setShowPopup}
+                            />
                         )}
                         {gpsData ? (
                             <div className={styles.deviceDetailsSection}>
                                 <OpenStreetMap gpsData={gpsData} />
+                                <h1>{name}</h1>
                                 <DeviceDetails gpsData={gpsData} />
                             </div>
                         ) : (

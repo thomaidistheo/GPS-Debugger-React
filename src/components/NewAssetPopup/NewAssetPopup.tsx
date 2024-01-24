@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
 import styles from './NewAssetPopup.module.scss'
+import closeIcon from '../../assets/close.svg'
 
 import { assetDataProps } from '../../types'
 
 type NewAssetPopupProps = {
-    onAdd: (assetData: assetDataProps) => Promise<void>;
+    onAdd: (assetData: assetDataProps) => Promise<void>,
+    setShowPopup: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const NewAssetPopup: React.FC<NewAssetPopupProps> = ({ onAdd }) => {
+const NewAssetPopup: React.FC<NewAssetPopupProps> = ({ onAdd, setShowPopup }) => {
     const [imei, setImei] = useState<string>('')
     const [name, setName] = useState<string>('')
     const [errorMsg, setErrorMsg] = useState<string>('')
@@ -36,9 +38,17 @@ const NewAssetPopup: React.FC<NewAssetPopupProps> = ({ onAdd }) => {
         }
     }
 
+    const handleClose = () => {
+        console.log('close form')
+        setShowPopup(false)
+    }
+
     return (
         <div className={styles.popUpContainer}>
             <form className={styles.popUpForm} onSubmit={handleSubmit}>
+                <button className={styles.closeBtn} onClick={handleClose}>
+                    <img src={closeIcon} alt="Cancel" draggable="false"/>
+                </button>
                 <p className={styles.popupTitle}>Add new asset</p>
                 <div className={styles.inputsContainer}>
                     <div className={styles.inputGroup}>

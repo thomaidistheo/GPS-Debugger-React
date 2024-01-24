@@ -24,11 +24,35 @@
         border-radius: 8px;
         gap: 16px;
         padding: 32px;
+        position: relative;
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
 
         @media (max-width: 768px) {
             width: 100%;
             margin: 0 16px;
             padding: 32px 16px;
+        }
+
+        .closeBtn {
+            position: absolute;
+            top: -64px;
+            right: 0px;
+            border: none;
+            border-radius: 80px;
+            box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+            background-color: $accentClr;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            font-size: 16px;
+            cursor: pointer;
+            filter: contrast(.3);
+
+            &:active {
+                transform: scale(0.95);
+            }
         }
 
         .popupTitle {
@@ -84,6 +108,7 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.15);
             border: 1px solid $accentClr;
             color: $txtPrimary;
+            font-size: 16px;
             font-weight: 500;
             border-radius: 8px;
             cursor: pointer;
