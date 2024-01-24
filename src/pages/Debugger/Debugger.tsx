@@ -15,6 +15,7 @@ import { db, auth } from '../../firebase';
 import { signOut } from 'firebase/auth';
 // import { StorageError } from 'firebase/storage';
 import { FirebaseError } from 'firebase/app';
+import LoadingScreen from '../../components/Loading/LoadingScreen';
 
 type assetDataProps = {
     imei: string;
@@ -101,11 +102,9 @@ const Debugger = () => {
 
         return (
             <>
-                {isLoading ? (
-                    <div className={styles.loadingScreen}>
-                        <img src={loadingGif} alt="Loading..." />
-                    </div>
-                ) : (
+                {isLoading 
+                ? <LoadingScreen />
+                : (
                     <>
                         <SearchBar onSearch={handleFetchData} />
                         <AssetList setShowPopup={setShowPopup} />
