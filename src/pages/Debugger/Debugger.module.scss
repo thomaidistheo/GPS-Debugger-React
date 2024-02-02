@@ -1,5 +1,11 @@
 @import '../../styles/variables';
 
+.resultPlaceholder {
+    margin-top: 32px;
+    text-align: center;
+    color: $txtSecondary;
+}
+
 .deviceDetailsSection {
     width: 100%;
     padding: 16px 64px;
@@ -10,10 +16,46 @@
     @media (max-width: 768px) {
         padding: 16px;
     }
+
+    .assetHeader {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+
+        .assetName {
+            font-size: 24px;
+        }
+    }
 }
 
-.resultPlaceholder {
-    margin-top: 32px;
-    text-align: center;
-    color: $txtSecondary;
+.notFound {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+}
+
+.assetSettings {
+    border: 1px solid $accentClr;
+    border-radius: $borderRadius;
+    background-color: $accentClr;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    padding: 8px;
+    transition: all 100ms ease-in-out;
+    cursor: pointer;
+
+    img {
+        width: 18px;
+    }
+
+    &:hover {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.20);
+    }
+
+    &:active {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);;
+        transform: scale(0.98);
+    }
 }

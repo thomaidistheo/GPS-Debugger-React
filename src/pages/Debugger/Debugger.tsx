@@ -9,12 +9,13 @@ import fetchDeviceData from '../../components/fetchers/DeviceDataFetcher';
 import { GpsData } from '../../types';
 import OpenStreetMap from '../../components/OpenStreetMap/OpenStreetMap';
 import NewAssetPopup from '../../components/NewAssetPopup/NewAssetPopup';
-import { doc, setDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import { deleteDoc, doc, setDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { db, auth } from '../../firebase';
 import { signOut } from 'firebase/auth';
 // import { StorageError } from 'firebase/storage';
 import { FirebaseError } from 'firebase/app';
 import LoadingScreen from '../../components/Loading/LoadingScreen';
+import deleteIcon from '../../assets/delete.svg'
 
 type assetDataProps = {
     imei: string;
@@ -27,6 +28,7 @@ const Debugger = () => {
     const [imei, setImei] = useState<string>('');
     const [name, setName] = useState<string>('');
     const [showPopup, setShowPopup] = useState<boolean>(false);
+    const [error, setError] = useState<string>('')
 
     const updateInterval = 5000;
 
@@ -34,6 +36,7 @@ const Debugger = () => {
         fetchDeviceData(imei, (data: GpsData | null, error: string | null) => {
             setIsLoading(false);
             if (error) {
+                setError(error)
                 console.log(error);
                 setGpsData(null)
             } else {
@@ -97,45 +100,84 @@ const Debugger = () => {
         }
     }
 
+    const handleDeleteAsset = async (imeiToDelete: string) => {
+        const user = auth.currentUser;
+        if (imeiToDelete && user) {
+            const assetsRef = collection(db, 'users', user.uid, 'assets');
+            const q = query(assetsRef, where('imei', '==', imeiToDelete));
+
+            try {
+                const querySnapshot = await getDocs(q);
+                if (!querySnapshot.empty) {
+                    // Delete the first asset that matches the IMEI
+                    const assetToDelete = querySnapshot.docs[0];
+                    console.log('assetToDelete: ', assetToDelete);
+                    console.log('assetToDelete.ref: ', assetToDelete.ref);
+                    await deleteDoc(assetToDelete.ref);
+                    console.log('asset deleted: ', assetToDelete.ref);
+                } else {
+                    // no asset with the provided imei
+                    console.log('No asset with the provided IMEI found');
+                }
+            } catch (error) {
+                console.log('Error deleting asset: ', error);
+            }
+        } else {
+            console.log('IMEI is null or undefined');
+        }
+    }
+
     const handleSignOut = async () => {
         try {
             await signOut(auth);
             console.log('User signed out successfully');
             // Additional logic after successful sign out (e.g., redirecting the user)
         } catch (error: unknown) {
-            if (error instanceof FirebaseError ) {
+            if (error instanceof FirebaseError) {
                 console.error('Error signing out:', error.message);
             }
         }
     }
 
-        return (
-            <>
-                {isLoading 
+    return (
+        <>
+            {isLoading
                 ? <LoadingScreen />
                 : (
                     <>
                         <SearchBar onSearch={handleFetchData} />
-                        <AssetList setShowPopup={setShowPopup} onAssetSelect={handleSavedAssetData}/>
-                        <button onClick={handleSignOut}>Sign Out</button>
+                        <AssetList setShowPopup={setShowPopup} onAssetSelect={handleSavedAssetData} />
                         {showPopup && (
-                            <NewAssetPopup 
-                                onAdd={handleNewAsset} 
+                            <NewAssetPopup
+                                onAdd={handleNewAsset}
                                 setShowPopup={setShowPopup}
                             />
                         )}
                         {gpsData ? (
                             <div className={styles.deviceDetailsSection}>
+                                <div className={styles.assetHeader}>
+                                    <h2 className={styles.assetName}>{name}</h2>
+                                    <button onClick={() => handleDeleteAsset(imei)} className={styles.assetSettings}><img src={deleteIcon} alt="Settings" draggable="false" /></button>
+                                </div>
                                 <OpenStreetMap gpsData={gpsData} />
-                                <h1>{name}</h1>
                                 <DeviceDetails gpsData={gpsData} />
                             </div>
                         ) : (
-                            <div className={styles.resultPlaceholder}>Device details will be shown here.</div>
+                            <div className={styles.resultPlaceholder}>
+                                {!error ? (
+                                    <p>Device details will be shown here.</p>
+                                ) : (
+                                    <div className={styles.notFound}>
+                                        <p>IMEI not found.</p>
+                                        <button onClick={() => handleDeleteAsset(imei)} className={styles.assetSettings}><img src={deleteIcon} alt="Settings" draggable="false" /></button>
+                                    </div>
+                                )}
+                            </div>
                         )}
                     </>
                 )}
-            </>
-        );
-    }
-    export default Debugger;
+            <button onClick={handleSignOut}>Sign Out</button>
+        </>
+    )
+}
+export default Debugger;
