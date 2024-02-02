@@ -12,7 +12,8 @@
     &::after {
         content: '';
         position: absolute;
-        background-color: $accentClr;
+        background-color: $txtSecondary;
+        opacity: 0.2;
         width: 256px;
         height: 1px;
         bottom: -16px;

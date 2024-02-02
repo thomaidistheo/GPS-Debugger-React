@@ -22,8 +22,10 @@
         align-items: center;
         justify-content: space-between;
         margin-bottom: 16px;
+        padding: 0 8px;
 
         .assetName {
+            color: $txtPrimary;
             font-size: 24px;
         }
     }
@@ -42,7 +44,7 @@
     border-radius: $borderRadius;
     background-color: $accentClr;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-    padding: 8px;
+    padding: 16px;
     transition: all 100ms ease-in-out;
     cursor: pointer;
 
@@ -57,5 +59,34 @@
     &:active {
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);;
         transform: scale(0.98);
+    }
+}
+
+.btnContainer {
+    width: 100%;
+    display: grid;
+    place-content: center;
+    margin: 64px 0;
+    position: relative;
+
+    &::before {
+        content: '';
+        height: 1px;
+        width: 50%;
+        background-color: $txtSecondary;
+        opacity: 0.2;
+        position: absolute;
+        top: -70%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .signoutBtn {
+        border: 1px solid $accentClr;
+        border-radius: $borderRadius;
+        background-color: $accentClr;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.20);
+        padding: 16px 32px;
+
     }
 }

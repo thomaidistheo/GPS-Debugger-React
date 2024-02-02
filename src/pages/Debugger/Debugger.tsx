@@ -61,11 +61,11 @@ const Debugger = () => {
 
     const handleFetchData = (newImei: string) => {
         console.log(newImei)
-        setImei(newImei);
+        setImei(newImei)
     };
 
     const handleSavedAssetData = (imei: string, name: string) => {
-        setImei(imei);
+        setImei(imei)
         setName(name)
         console.log(imei)
         console.log(name)
@@ -75,27 +75,24 @@ const Debugger = () => {
         setShowPopup(false)
         const { imei, name } = assetData
 
-        const user = auth.currentUser;
+        const user = auth.currentUser
 
         if (user) {
-            // Reference to the user's assets collection
-            const assetsRef = collection(db, 'users', user.uid, 'assets');
-            // Query for an asset with the provided IMEI
-            const q = query(assetsRef, where('imei', '==', imei));
+            const assetsRef = collection(db, 'users', user.uid, 'assets')
+            const q = query(assetsRef, where('imei', '==', imei))
 
             try {
-                const querySnapshot = await getDocs(q);
+                const querySnapshot = await getDocs(q)
                 if (querySnapshot.empty) {
-                    // No asset with the same IMEI exists, create a new one
-                    const newAssetRef = doc(assetsRef); // Let Firestore generate a new ID
-                    await setDoc(newAssetRef, { imei, name });
-                    console.log('New asset added:', newAssetRef.id);
+                    const newAssetRef = doc(assetsRef)
+                    await setDoc(newAssetRef, { imei, name })
+                    console.log('New asset added:', newAssetRef.id)
                 } else {
                     // An asset with this IMEI already exists
-                    console.log('An asset with this IMEI already exists');
+                    console.log('An asset with this IMEI already exists')
                 }
             } catch (error) {
-                console.error('Error accessing Firestore:', error);
+                console.error('Error accessing Firestore:', error)
             }
         }
     }
@@ -110,31 +107,29 @@ const Debugger = () => {
                 const querySnapshot = await getDocs(q);
                 if (!querySnapshot.empty) {
                     // Delete the first asset that matches the IMEI
-                    const assetToDelete = querySnapshot.docs[0];
-                    console.log('assetToDelete: ', assetToDelete);
-                    console.log('assetToDelete.ref: ', assetToDelete.ref);
-                    await deleteDoc(assetToDelete.ref);
-                    console.log('asset deleted: ', assetToDelete.ref);
+                    const assetToDelete = querySnapshot.docs[0]
+                    await deleteDoc(assetToDelete.ref)
+                    console.log('Asset deleted')
                 } else {
                     // no asset with the provided imei
-                    console.log('No asset with the provided IMEI found');
+                    console.log('No asset with the provided IMEI found')
                 }
             } catch (error) {
-                console.log('Error deleting asset: ', error);
+                console.log('Error deleting asset: ', error)
             }
         } else {
-            console.log('IMEI is null or undefined');
+            console.log('IMEI is null or undefined')
         }
     }
 
     const handleSignOut = async () => {
         try {
             await signOut(auth);
-            console.log('User signed out successfully');
+            console.log('User signed out successfully')
             // Additional logic after successful sign out (e.g., redirecting the user)
         } catch (error: unknown) {
             if (error instanceof FirebaseError) {
-                console.error('Error signing out:', error.message);
+                console.error('Error signing out:', error.message)
             }
         }
     }
@@ -176,7 +171,9 @@ const Debugger = () => {
                         )}
                     </>
                 )}
-            <button onClick={handleSignOut}>Sign Out</button>
+                <div className={styles.btnContainer}>
+                    <button onClick={handleSignOut} className={styles.signoutBtn}>Sign Out</button>
+                </div>
         </>
     )
 }
