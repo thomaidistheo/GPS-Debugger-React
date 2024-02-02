@@ -3,11 +3,14 @@ import { auth, db } from '../../firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { FirebaseError } from 'firebase/app';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import styles from './Login.module.scss';
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [form, setForm] = useState('login');
+    
 
     const signUp = async (email: string, password: string) => {
         try {
@@ -71,44 +74,65 @@ const Login: React.FC = () => {
     };
 
     return (
-        <div>
-            <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
-            />
-            <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-            />
-            <button onClick={signInWithEmail}>Login</button>
-            <button onClick={signInWithGoogle}>Login with Google</button>
 
-            <form onSubmit={handleSignUp}>
-                <div>
-                    <label>Email</label>
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Password</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                <button type="submit">Sign Up</button>
-                {error && <p>{error}</p>}
-            </form>
+        <div className={styles.loginPage}>
+            <>
+                {form == 'login'
+                    ? (
+                        <div className={styles.loginFormCont}>
+                            <img className={styles.logo} src="https://kentall-tech.com/static/media/laptop.5a84027a.png" alt="" />
+                            <div className={styles.loginForm}>
+                                <input
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    placeholder="Email"
+                                />
+                                <input
+                                    type="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    placeholder="Password"
+                                />
+                                <button onClick={signInWithEmail}>Login</button>
+                                <button className={styles.googleLogin} onClick={signInWithGoogle}>Login with Google</button>
+                                <div className={styles.formTypePrompt}>
+                                    <p>Don't have an account? <button onClick={()=>setForm('singup')}className={styles.signUpPromptBtn}>Sign Up</button></p>
+                                </div>
+                            </div>
+                            {error && <p>{error}</p>}
+                        </div>
+                    ) : (
+                        <div className={styles.signupFormCont}>
+                            <img className={styles.logo} src="https://kentall-tech.com/static/media/laptop.5a84027a.png" alt="" />
+                            <form className={styles.signupForm} onSubmit={handleSignUp}>
+                                    <input
+                                        type="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        placeholder="Email"
+                                        required
+                                    />
+                                    <input
+                                        type="password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        placeholder="Password"
+                                        required
+                                    />
+                                <button type="submit">Sign Up</button>
+                                <button className={styles.googleLogin} onClick={signInWithGoogle}>Sign up with Google</button>
+                                <div className={styles.formTypePrompt}>
+                                    <p>Already have an account? <button onClick={()=>setForm('login')}className={styles.signUpPromptBtn}>Login</button></p>
+                                </div>
+                                {error && <p>{error}</p>}
+                            </form>
+                        </div>
+                    )
+                }
+            </>
+
+            
         </div>
     );
 };

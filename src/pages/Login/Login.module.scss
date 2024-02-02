@@ -1,0 +1,111 @@
+@import '../../styles/variables';
+
+.loginPage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 80vh;
+    padding: 0 16px;
+
+    .loginFormCont {
+        box-shadow: 0 0 7px rgba(20, 62, 154, 0.2);
+    }
+
+    .signupFormCont {
+        box-shadow: 0 0 7px rgba(154, 29, 20, 0.2);
+    }
+
+    .loginFormCont,
+    .signupFormCont {
+        max-width: 672px;
+        border: 1px solid $accentClr;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0 32px 32px 32px;
+        min-width: 370px;
+        
+        @media (max-width: 390px) {
+            min-width: unset;
+        }
+
+        .logo {
+            max-width: 128px;
+            margin: 16px 0;
+        }
+
+        .loginForm,
+        .signupForm {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 16px;
+
+            input {
+                width: 100%;
+                font-size: 16px;
+                padding: 16px 16px;
+                border: 1px solid $accentClr;
+                border-radius: $borderRadius;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            button {
+                align-self: center;
+                border: 1px solid $accentClr;
+                border-radius: $borderRadius;
+                
+                font-size: inherit;
+                padding: 16px 32px;
+                cursor: pointer;
+
+                &:active {
+                    transform: scale(0.98);
+                    box-shadow: none;
+                }
+            
+                &.googleLogin {
+                    background: none;
+                    border-radius: $borderRadius;
+                    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                    position: relative;
+                    padding-left: 32px;
+
+                    &::before {
+                        content: '';
+                        height: 24px;
+                        width: 24px;
+                        position: absolute;
+                        left: 4px;
+                        top: 25%;
+                        background-image: url('../../assets/google.svg');
+                        background-size: contain;
+                    }
+
+                    &:active {
+                        transform: scale(0.98);
+                        box-shadow: none;
+                    }
+                }
+            }
+            
+            .formTypePrompt {
+                p {
+                    .signUpPromptBtn {
+                        font-size: inherit;
+                        background-color: transparent;
+                        border: none;
+                        border-radius: 0;
+                        border-bottom: 2px solid $txtSecondary;
+                        padding: 0 2px 2px 2px;
+                    }
+                }
+            }
+        }
+    }
+}
+
