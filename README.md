@@ -5,7 +5,7 @@ A mini platform used for asset tracking. View current location of an asset on th
 
 <img src="/src/assets/screenshot4.jpeg">
 
-### Key Features
+## Key Features
 
 - **Real-Time GPS Tracking**: Connects with GPS Tracker devices to provide real-time location data.
 
@@ -15,7 +15,7 @@ A mini platform used for asset tracking. View current location of an asset on th
 - **Live Map Updates**: Automatic updates on the map as the tracked asset moves. ✅
 - **Search by IMEI**: Ensures data access is specific to the user's devices. ✅
 
-### Technical
+## Technical Details
 This is a learning experience project to hone my ReactJS skills using Typescript for the first time and also integrating a basic Firebase db to bring the app to life.
 Tech used is <b>ReactJS</b> with <b>TypeScript</b> and <b>Firebase</b> while there's some <b>Node</b> logic using <em>ExpressJS</em> running on a server for the assets to point to.
 
@@ -31,7 +31,7 @@ How it works:
 - If there is no asset with the provided IMEI stored to the server or if the IMEI is wrong, the user gets an error message that explains what went wrong.
 - The user then has the option to also delete the asset from their account.
 
-### Screenshots
+## Screenshots
 
 <img src="/src/assets/screenshot1.jpeg">
 
